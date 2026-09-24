@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#0b0b10" />
+  <title>IG Cleanup</title>
+  <style>:root{color-scheme:dark;--bg:#08090d;--panel:#11131a;--panel2:#181b24;--text:#f7f7fb;--muted:#9399aa;--line:#262a36;--keep:#46d17c;--cull:#ff5a69;--accent:#9b8cff;--gold:#ffca63}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:radial-gradient(circle at 50% -10%,#1b1830 0,#0b0c12 38%,#08090d 72%);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--text)}
+button,select{font:inherit}.app{min-height:100dvh;display:grid;grid-template-rows:auto 1fr auto;max-width:760px;margin:auto;padding:env(safe-area-inset-top) 14px env(safe-area-inset-bottom)}
+header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 2px 10px}.brand{display:flex;align-items:center;gap:10px}.logo{width:38px;height:38px;border-radius:12px;background:linear-gradient(135deg,#f77737,#e1306c 48%,#833ab4);display:grid;place-items:center;font-weight:900;box-shadow:0 8px 30px #e1306c33}.brand h1{font-size:18px;margin:0}.brand p{font-size:12px;color:var(--muted);margin:2px 0 0}.header-actions{display:flex;gap:8px}.mini{border:1px solid var(--line);background:#12141b;color:var(--text);border-radius:12px;padding:9px 11px;cursor:pointer}
+.toolbar{display:flex;gap:8px;align-items:center;padding:6px 2px 10px;overflow:auto}.toolbar select,.pill{border:1px solid var(--line);background:#11131a;color:var(--text);border-radius:999px;padding:8px 12px;white-space:nowrap}.pill{font-size:12px;color:var(--muted)}
+main{display:grid;place-items:center;min-height:0;padding:4px 0 12px}.stage{width:min(100%,430px);height:min(68dvh,660px);min-height:520px;position:relative}.card{position:absolute;inset:0;border-radius:28px;overflow:hidden;background:linear-gradient(180deg,#222532,#12141a 65%);border:1px solid #ffffff12;box-shadow:0 24px 70px #0009;touch-action:none;user-select:none;transition:transform .22s ease,opacity .22s ease;will-change:transform}
+.photo{position:absolute;inset:0 0 190px;background:#171921;display:grid;place-items:center;overflow:hidden}.photo img{width:100%;height:100%;object-fit:cover;display:block}.fallback{position:absolute;inset:0;display:grid;place-items:center;font-size:72px;font-weight:900;letter-spacing:-4px;background:linear-gradient(135deg,#2c3150,#171a28 60%,#302443)}
+.shade{position:absolute;inset:38% 0 0;background:linear-gradient(transparent,#0b0d13 58%,#0b0d13)}.badges{position:absolute;top:16px;left:16px;display:flex;flex-wrap:wrap;gap:7px}.badge{padding:7px 10px;border-radius:999px;font-size:11px;font-weight:750;background:#090b10aa;border:1px solid #ffffff1f;backdrop-filter:blur(12px)}.badge.priority{color:var(--gold)}.badge.interest{color:#8ed6ff}.badge.protected{color:#d2b7ff}
+.stamp{position:absolute;top:48px;padding:10px 14px;border:4px solid;border-radius:12px;font-size:34px;font-weight:950;letter-spacing:2px;opacity:0;transform:rotate(-12deg);pointer-events:none}.stamp.keep{right:20px;color:var(--keep);border-color:var(--keep)}.stamp.cull{left:20px;color:var(--cull);border-color:var(--cull);transform:rotate(12deg)}
+.meta{position:absolute;left:0;right:0;bottom:0;padding:22px}.name-row{display:flex;align-items:flex-end;justify-content:space-between;gap:12px}.username{font-size:31px;font-weight:850;letter-spacing:-1.2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.year{font-size:16px;color:#d8dbe5;font-weight:650;flex:none}.known{font-size:15px;color:#d7d9e2;margin-top:2px}.reason{font-size:13px;line-height:1.45;color:#a8aebe;margin-top:10px;min-height:38px}.open{margin-top:14px;width:100%;border:1px solid #ffffff22;background:#ffffff0e;color:#fff;border-radius:14px;padding:12px;cursor:pointer;font-weight:720}.open:hover{background:#ffffff17}
+.empty{position:absolute;inset:0;display:grid;place-items:center;text-align:center;border:1px dashed var(--line);border-radius:28px;padding:30px;color:var(--muted);background:#101219}.empty h2{color:#fff;margin:0 0 8px}
+footer{padding:0 0 14px}.controls{display:flex;justify-content:center;align-items:center;gap:14px}.round{border:1px solid var(--line);background:#12141b;color:#fff;border-radius:50%;width:58px;height:58px;cursor:pointer;font-size:24px;display:grid;place-items:center;box-shadow:0 8px 24px #0005}.round.small{width:45px;height:45px;font-size:17px}.round.keep{border-color:#46d17c55;color:var(--keep)}.round.cull{border-color:#ff5a6955;color:var(--cull)}.progress-wrap{margin-top:14px}.progress-label{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-bottom:7px}.bar{height:6px;background:#1b1e27;border-radius:99px;overflow:hidden}.bar>div{height:100%;width:0;background:linear-gradient(90deg,#e1306c,#833ab4);transition:width .2s}
+dialog{width:min(680px,calc(100% - 24px));max-height:85dvh;border:1px solid var(--line);border-radius:22px;background:#101219;color:var(--text);padding:0;box-shadow:0 30px 100px #000c}.modal-head{position:sticky;top:0;background:#101219e8;backdrop-filter:blur(12px);display:flex;justify-content:space-between;align-items:center;padding:18px;border-bottom:1px solid var(--line);z-index:2}.modal-head h2{margin:0;font-size:18px}.modal-body{padding:14px 18px 22px}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:18px}.stat{background:#171a22;border:1px solid var(--line);padding:14px;border-radius:14px}.stat b{display:block;font-size:22px}.stat span{font-size:11px;color:var(--muted)}.queue{display:grid;gap:8px}.qrow{display:flex;align-items:center;gap:10px;background:#151820;border:1px solid var(--line);border-radius:14px;padding:10px}.qrow .grow{min-width:0;flex:1}.qrow b{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.qrow small{color:var(--muted)}.qrow a{color:#c4baff;text-decoration:none;font-size:12px}.modal-actions{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 18px}.btn{border:1px solid var(--line);background:#181b24;color:#fff;border-radius:12px;padding:10px 12px;cursor:pointer}.danger{color:#ff8c96}.note{font-size:12px;line-height:1.5;color:var(--muted)}.credits{font-size:10px;color:#666c7a;text-align:center;margin-top:11px}.credits a{color:#7e8493}
+@media(max-width:520px){.app{padding-left:10px;padding-right:10px}.stage{width:100%;height:66dvh;min-height:500px}.username{font-size:28px}.header-actions .mini:first-child{display:none}}</style>
+</head>
+<body>
+<div class="app">
+  <div>
+    <header>
+      <div class="brand"><div class="logo">IG</div><div><h1>Cleanup Tinder</h1><p>Keep the good stuff. Cull the ghosts.</p></div></div>
+      <div class="header-actions"><button class="mini" id="loadBtn">Load ZIP</button><button class="mini" id="undoTop">↶ Undo</button><button class="mini" id="reviewBtn">Review</button></div>
+    </header>
+    <div class="toolbar">
+      <select id="filter">
+        <option value="all">All non-mutuals</option>
+        <option value="priority">Priority: older / personal-looking</option>
+        <option value="review">General review</option>
+        <option value="interest">Likely genuine-interest</option>
+        <option value="protected">Close Friends (protected)</option>
+      </select>
+      <span class="pill" id="queuePill">0 remaining</span>
+      <span class="pill">← unfollow · → keep</span>
+    </div>
+  </div>
+  <main><div class="stage" id="stage"></div></main>
+  <footer>
+    <div class="controls">
+      <button class="round small" id="undo" title="Undo">↶</button>
+      <button class="round cull" id="cull" title="Mark for unfollow">✕</button>
+      <button class="round small" id="open" title="Open Instagram">↗</button>
+      <button class="round keep" id="keep" title="Keep">♥</button>
+    </div>
+    <div class="progress-wrap"><div class="progress-label"><span id="progressText">0 reviewed</span><span id="decisionStats">0 keep · 0 unfollow</span></div><div class="bar"><div id="progressBar"></div></div></div>
+    <div class="credits"><a href="https://unavatar.io" target="_blank">Avatars provided by Unavatar</a> · profile/post inspection opens Instagram directly</div>
+  </footer>
+</div>
+<div id="importScreen" style="position:fixed;inset:0;z-index:20;background:radial-gradient(circle at 50% -10%,#1b1830 0,#0b0c12 42%,#08090d 75%);display:grid;place-items:center;padding:22px">
+  <div style="width:min(520px,100%);background:#11131a;border:1px solid #262a36;border-radius:26px;padding:26px;box-shadow:0 30px 90px #000b">
+    <div class="logo" style="margin-bottom:18px">IG</div>
+    <h1 style="margin:0 0 8px">Load your Instagram export</h1>
+    <p style="color:#9399aa;line-height:1.55;margin:0 0 18px">Choose the ZIP from Instagram. It is parsed entirely in this browser; the file and account list are not uploaded to a server.</p>
+    <label class="btn" style="display:block;text-align:center;padding:14px;cursor:pointer;background:#242032;border-color:#4a4269;font-weight:750">Choose export ZIP<input id="zipInput" type="file" accept=".zip,application/zip" hidden></label>
+    <button class="btn" id="cancelImport" style="display:none;width:100%;margin-top:10px">Cancel</button><div id="importStatus" style="font-size:12px;color:#9399aa;margin-top:12px;min-height:20px"></div>
+    <p class="note" style="margin-top:18px">The queue is <b>following − followers</b>. Mutuals are excluded automatically; Close Friends are marked as protected. Swipe decisions are stored only in localStorage on this device.</p>
+  </div>
+</div>
+<dialog id="reviewDialog">
+  <div class="modal-head"><h2>Decision queue</h2><button class="mini" id="closeDialog">Done</button></div>
+  <div class="modal-body">
+    <div class="stats"><div class="stat"><b id="keepCount">0</b><span>Keep</span></div><div class="stat"><b id="cullCount">0</b><span>Unfollow</span></div><div class="stat"><b id="remainingCount">0</b><span>Remaining</span></div></div>
+    <div class="modal-actions"><button class="btn" id="exportCsv">Export CSV</button><button class="btn" id="exportJson">Export JSON</button><button class="btn danger" id="reset">Reset decisions</button></div>
+    <p class="note">“Unfollow” is a decision queue only: the app never logs into Instagram or performs account actions. Use the profile links below to unfollow manually, which avoids handing credentials to a third party.</p>
+    <h3>Marked for unfollow</h3><div class="queue" id="cullQueue"></div>
+  </div>
+</dialog>
+<script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+<script>(() => {
+  const DATA_KEY='ig-cleanup-accounts-v1', KEY='ig-cleanup-decisions-v1';
+  const storage={get(k,fallback){try{return localStorage.getItem(k) ?? fallback}catch(_){return fallback}},set(k,v){try{localStorage.setItem(k,v)}catch(_){}},remove(k){try{localStorage.removeItem(k)}catch(_){}}};
+  let savedAccounts=[],savedDecisions={};try{savedAccounts=JSON.parse(storage.get(DATA_KEY,'[]')||'[]')}catch(_){}try{savedDecisions=JSON.parse(storage.get(KEY,'{}')||'{}')}catch(_){}
+  window.ACCOUNTS=Array.isArray(savedAccounts)?savedAccounts:[];
+  const state={filter:'all',decisions:savedDecisions&&typeof savedDecisions==='object'?savedDecisions:{},history:[]};
+  const $=s=>document.querySelector(s);
+  const els={stage:$('#stage'),filter:$('#filter'),queuePill:$('#queuePill'),progressText:$('#progressText'),decisionStats:$('#decisionStats'),progressBar:$('#progressBar'),dialog:$('#reviewDialog'),cullQueue:$('#cullQueue'),importScreen:$('#importScreen'),zipInput:$('#zipInput'),importStatus:$('#importStatus')};
+  const INTEREST=['dj','music','records','record','label','radio','club','rave','garage','ukg','bass','house','techno','jungle','dnb','drum','sound','audio','beats','producer','production','festival','events','event','night','vinyl','mix','fm','collective','agency','artist','band','magazine','meme','memes','archive','official'];
+  const personal=/^[a-z]+[._]?[a-z]+\d{0,3}$/i;
+  function labels(obj){const o={};for(const v of (obj.label_values||[]))o[v.label]=v.value||'';return o}
+  function classify(username,year,closeFriend){const u=username.toLowerCase();const terms=INTEREST.filter(t=>u.includes(t));if(closeFriend)return ['protected','Close Friends'];if(terms.length)return ['interest','Handle suggests genuine-interest account: '+terms.slice(0,3).join(', ')];if(year&&year<=2020&&personal.test(u))return ['priority','Older personal-looking non-mutual'];if(year&&year<=2018)return ['priority','Very old non-mutual follow'];return ['review','Non-mutual — needs judgement']}
+  async function importZip(file){
+    els.importStatus.textContent='Reading ZIP…';
+    const zip=await JSZip.loadAsync(file);
+    const find=name=>Object.keys(zip.files).find(x=>x.endsWith('/'+name)||x===name);
+    const fp=find('following.json'), fr=find('followers_1.json'), cf=find('close_friends.json');
+    if(!fp||!fr)throw new Error('Could not find following.json / followers_1.json in this export.');
+    const following=JSON.parse(await zip.file(fp).async('text')).relationships_following||[];
+    const followersRaw=JSON.parse(await zip.file(fr).async('text'));
+    const closeRaw=cf?JSON.parse(await zip.file(cf).async('text')):[];
+    const followers=new Set(followersRaw.map(x=>x.string_list_data?.[0]?.value?.toLowerCase()).filter(Boolean));
+    const close=new Map(closeRaw.map(x=>{const l=labels(x);return [(l.Username||'').toLowerCase(),l]}).filter(x=>x[0]));
+    const seen=new Set(), accounts=[];
+    for(const x of following){const username=(x.title||'').trim();if(!username)continue;const k=username.toLowerCase();if(seen.has(k)||followers.has(k))continue;seen.add(k);const d=x.string_list_data?.[0]||{};const ts=d.timestamp||0;const year=ts?new Date(ts*1000).getUTCFullYear():null;const isClose=close.has(k);const [category,reason]=classify(username,year,isClose);accounts.push({username,url:(d.href||('https://www.instagram.com/'+username+'/')).replace('/_u/','/'),followedYear:year,closeFriend:isClose,knownName:close.get(k)?.Name||'',category,reason})}
+    const order={priority:0,review:1,interest:2,protected:3};accounts.sort((a,b)=>(order[a.category]-order[b.category])||((a.followedYear||9999)-(b.followedYear||9999)));
+    window.ACCOUNTS=accounts;storage.set(DATA_KEY,JSON.stringify(accounts));storage.remove(KEY);state.decisions={};state.history=[];els.importStatus.textContent='Loaded '+accounts.length.toLocaleString()+' non-mutual accounts.';setTimeout(()=>{els.importScreen.style.display='none';buildCard(current());updateChrome()},350);
+  }
+  function save(){storage.set(KEY,JSON.stringify(state.decisions));updateChrome()}
+  function filtered(){return window.ACCOUNTS.filter(a=>state.filter==='all'||a.category===state.filter)}
+  function undecided(){return filtered().filter(a=>!state.decisions[a.username])}
+  function current(){return undecided()[0]||null}
+  function initials(u){return u.replace(/[^a-z0-9]/gi,' ').split(/\s+/).filter(Boolean).slice(0,2).map(x=>x[0]).join('').toUpperCase()||'IG'}
+  function badgeClass(c){return ['priority','interest','protected'].includes(c)?c:''}
+  function categoryLabel(a){return a.category==='priority'?'Priority review':a.category==='interest'?'Likely interest':a.category==='protected'?'Close Friends':'Review'}
+  function buildCard(a){
+    if(!window.ACCOUNTS.length){els.importScreen.style.display='grid';els.stage.innerHTML='';return}
+    if(!a){els.stage.innerHTML='<div class="empty"><div><h2>Queue complete 🎉</h2><p>You’ve reviewed everything in this filter. Switch filters or open Review to export your unfollow list.</p></div></div>';return}
+    const card=document.createElement('article');card.className='card';card.dataset.username=a.username;
+    const avatar='https://unavatar.io/instagram/'+encodeURIComponent(a.username)+'?fallback=false';
+    card.innerHTML='<div class="photo"><div class="fallback">'+initials(a.username)+'</div><img alt="@'+a.username+' profile picture" src="'+avatar+'" /></div><div class="shade"></div><div class="badges"><span class="badge '+badgeClass(a.category)+'">'+categoryLabel(a)+'</span>'+(a.closeFriend?'<span class="badge protected">Protected</span>':'')+'</div><div class="stamp cull">UNFOLLOW</div><div class="stamp keep">KEEP</div><div class="meta"><div class="name-row"><div class="username">@'+a.username+'</div><div class="year">'+(a.followedYear||'')+'</div></div>'+(a.knownName?'<div class="known">'+a.knownName+'</div>':'')+'<div class="reason">'+a.reason+'</div><button class="open">Open Instagram & recent posts ↗</button></div>';
+    card.querySelector('img').addEventListener('error',e=>e.currentTarget.style.display='none');card.querySelector('.open').addEventListener('click',e=>{e.stopPropagation();window.open(a.url,'_blank','noopener,noreferrer')});addSwipe(card,a);els.stage.replaceChildren(card)
+  }
+  function addSwipe(card,a){let sx=0,dx=0,active=false;card.addEventListener('pointerdown',e=>{if(e.target.closest('button'))return;active=true;sx=e.clientX;card.setPointerCapture(e.pointerId);card.style.transition='none'});card.addEventListener('pointermove',e=>{if(!active)return;dx=e.clientX-sx;card.style.transform='translateX('+dx+'px) rotate('+(dx/18)+'deg)';card.querySelector('.stamp.keep').style.opacity=Math.max(0,Math.min(1,dx/110));card.querySelector('.stamp.cull').style.opacity=Math.max(0,Math.min(1,-dx/110))});card.addEventListener('pointerup',()=>{if(!active)return;active=false;if(Math.abs(dx)>105)decide(dx>0?'keep':'unfollow',a,card);else{card.style.transition='transform .22s ease';card.style.transform='';card.querySelectorAll('.stamp').forEach(x=>x.style.opacity=0)}})}
+  function decide(action,a=current(),card=els.stage.querySelector('.card')){if(!a)return;if(a.closeFriend&&action==='unfollow'&&!confirm('@'+a.username+' is on your Close Friends list. Still mark for unfollow?'))return;state.history.push({username:a.username,previous:state.decisions[a.username]||null});state.decisions[a.username]=action;save();if(card){card.style.transition='transform .22s ease,opacity .22s ease';card.style.transform='translateX('+(action==='keep'?650:-650)+'px) rotate('+(action==='keep'?18:-18)+'deg)';card.style.opacity='.1';setTimeout(()=>buildCard(current()),180)}else buildCard(current())}
+  function undo(){const h=state.history.pop();if(!h)return;if(h.previous)state.decisions[h.username]=h.previous;else delete state.decisions[h.username];save();buildCard(current())}
+  function updateChrome(){const all=window.ACCOUNTS,f=filtered(),rem=f.filter(a=>!state.decisions[a.username]).length,keep=Object.values(state.decisions).filter(x=>x==='keep').length,cull=Object.values(state.decisions).filter(x=>x==='unfollow').length,reviewed=keep+cull;els.queuePill.textContent=rem.toLocaleString()+' remaining';els.progressText.textContent=reviewed.toLocaleString()+' reviewed';els.decisionStats.textContent=keep+' keep · '+cull+' unfollow';els.progressBar.style.width=(all.length?Math.min(100,(reviewed/all.length)*100):0)+'%';$('#keepCount').textContent=keep;$('#cullCount').textContent=cull;$('#remainingCount').textContent=Math.max(0,all.length-reviewed)}
+  function openReview(){updateChrome();const culls=window.ACCOUNTS.filter(a=>state.decisions[a.username]==='unfollow');els.cullQueue.innerHTML=culls.length?culls.map(a=>'<div class="qrow"><div class="grow"><b>@'+a.username+'</b><small>Followed '+(a.followedYear||'unknown')+' · '+a.reason+'</small></div><a href="'+a.url+'" target="_blank" rel="noopener">Open ↗</a></div>').join(''):'<p class="note">Nothing marked for unfollow yet.</p>';els.dialog.showModal()}
+  function exportFile(type){const rows=window.ACCOUNTS.filter(a=>state.decisions[a.username]).map(a=>({...a,decision:state.decisions[a.username]}));let blob,name;if(type==='json'){blob=new Blob([JSON.stringify(rows,null,2)],{type:'application/json'});name='instagram-cleanup-decisions.json'}else{const cols=['username','decision','followedYear','category','reason','url'];const esc=v=>'"'+String(v??'').replaceAll('"','""')+'"';const csv=[cols.join(','),...rows.map(r=>cols.map(c=>esc(r[c])).join(','))].join('\n');blob=new Blob([csv],{type:'text/csv'});name='instagram-cleanup-decisions.csv'}const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)}
+  els.zipInput.addEventListener('change',async e=>{const f=e.target.files?.[0];if(!f)return;try{await importZip(f)}catch(err){els.importStatus.textContent='Import failed: '+err.message}});
+  els.filter.addEventListener('change',e=>{state.filter=e.target.value;buildCard(current());updateChrome()});
+  $('#keep').onclick=()=>decide('keep');$('#cull').onclick=()=>decide('unfollow');$('#open').onclick=()=>{const a=current();if(a)window.open(a.url,'_blank','noopener,noreferrer')};$('#undo').onclick=undo;$('#undoTop').onclick=undo;$('#reviewBtn').onclick=openReview;$('#loadBtn').onclick=()=>{els.importStatus.textContent='';$('#cancelImport').style.display=window.ACCOUNTS.length?'block':'none';els.importScreen.style.display='grid'};$('#cancelImport').onclick=()=>{if(window.ACCOUNTS.length)els.importScreen.style.display='none'};$('#closeDialog').onclick=()=>els.dialog.close();$('#exportCsv').onclick=()=>exportFile('csv');$('#exportJson').onclick=()=>exportFile('json');$('#reset').onclick=()=>{if(confirm('Reset every swipe decision?')){state.decisions={};state.history=[];save();buildCard(current());els.dialog.close()}};
+  document.addEventListener('keydown',e=>{if(els.dialog.open||els.importScreen.style.display==='grid')return;if(e.key==='ArrowLeft')decide('unfollow');if(e.key==='ArrowRight')decide('keep');if(e.key==='ArrowUp'){const a=current();if(a)window.open(a.url,'_blank','noopener,noreferrer')}if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='z')undo()});
+  if(window.ACCOUNTS.length){els.importScreen.style.display='none';$('#cancelImport').style.display='block'}else{els.importScreen.style.display='grid'}buildCard(current());updateChrome();
+})();</script>
+</body>
+</html>
